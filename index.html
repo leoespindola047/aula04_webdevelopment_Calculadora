@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora Moderna</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#0f172a,#1e293b,#334155);
+}
+
+.calculadora{
+    width:340px;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(15px);
+    border:1px solid rgba(255,255,255,0.15);
+    border-radius:20px;
+    padding:20px;
+    box-shadow:0 15px 35px rgba(0,0,0,0.4);
+}
+
+.tela{
+    width:100%;
+    height:90px;
+    background:rgba(255,255,255,0.08);
+    border:none;
+    border-radius:15px;
+    color:#fff;
+    font-size:2.2rem;
+    text-align:right;
+    padding:20px;
+    margin-bottom:20px;
+    outline:none;
+}
+
+.botoes{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+}
+
+button{
+    height:65px;
+    border:none;
+    border-radius:15px;
+    font-size:1.4rem;
+    cursor:pointer;
+    transition:0.2s;
+    background:rgba(255,255,255,0.08);
+    color:#fff;
+    font-weight:bold;
+}
+
+button:hover{
+    transform:scale(1.05);
+    background:rgba(255,255,255,0.15);
+}
+
+.operador{
+    background:#f59e0b;
+}
+
+.operador:hover{
+    background:#fbbf24;
+}
+
+.igual{
+    background:#10b981;
+    grid-column:span 2;
+}
+
+.igual:hover{
+    background:#34d399;
+}
+
+.zero{
+    grid-column:span 2;
+}
+</style>
+</head>
+<body>
+
+<div class="calculadora">
+    <input type="text" class="tela" id="tela" disabled>
+
+    <div class="botoes">
+        <button onclick="limpar()">C</button>
+        <button onclick="apagar()">⌫</button>
+        <button onclick="inserir('%')">%</button>
+        <button class="operador" onclick="inserir('/')">÷</button>
+
+        <button onclick="inserir('7')">7</button>
+        <button onclick="inserir('8')">8</button>
+        <button onclick="inserir('9')">9</button>
+        <button class="operador" onclick="inserir('*')">×</button>
+
+        <button onclick="inserir('4')">4</button>
+        <button onclick="inserir('5')">5</button>
+        <button onclick="inserir('6')">6</button>
+        <button class="operador" onclick="inserir('-')">−</button>
+
+        <button onclick="inserir('1')">1</button>
+        <button onclick="inserir('2')">2</button>
+        <button onclick="inserir('3')">3</button>
+        <button class="operador" onclick="inserir('+')">+</button>
+
+        <button class="zero" onclick="inserir('0')">0</button>
+        <button onclick="inserir('.')">.</button>
+        <button class="igual" onclick="calcular()">=</button>
+    </div>
+</div>
+
+<script>
+let tela = document.getElementById("tela");
+
+function inserir(valor){
+    tela.value += valor;
+}
+
+function limpar(){
+    tela.value = "";
+}
+
+function apagar(){
+    tela.value = tela.value.slice(0,-1);
+}
+
+function calcular(){
+    try{
+        tela.value = eval(tela.value);
+    }catch{
+        tela.value = "Erro";
+    }
+}
+
+document.addEventListener("keydown", function(e){
+    if(!isNaN(e.key) || "+-*/.%".includes(e.key)){
+        inserir(e.key);
+    }
+    if(e.key === "Enter"){
+        calcular();
+    }
+    if(e.key === "Backspace"){
+        apagar();
+    }
+    if(e.key === "Escape"){
+        limpar();
+    }
+});
+</script>
+
+</body>
+</html>
